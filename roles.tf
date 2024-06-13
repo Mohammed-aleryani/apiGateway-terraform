@@ -8,6 +8,7 @@ resource "aws_iam_openid_connect_provider" "github" {
 
 resource "aws_iam_role" "test_role" {
   name = "test_role"
+  managed_policy_arns = ["arn:aws:iam::aws:policy/AdministratorAccess"]
 
   # Terraform's "jsonencode" function converts a
   # Terraform expression result to valid JSON syntax.
