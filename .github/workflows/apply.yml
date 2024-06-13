@@ -1,0 +1,45 @@
+name: Deploy the resourses on merge
+
+on:
+  workflow_dispatch:
+  push:
+    branches: main
+
+env:
+  AWS_REGION: "us-east-1"
+  OIDC_ROLE_ARN: ${{ secrets.AWS_GITHUB_OIDC_ROLE_ARN }}
+
+permissions:
+  id-token: write
+  contents: write
+  pull-requests: write
+
+jobs:
+  deploy-resources:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1.7.0
+        with:
+          role-to-assume: ${{ env.OIDC_ROLE_ARN }}
+          role-session-name: GitHub_to_AWS_via_FederatedOIDC
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Terraform Format
+        run: terraform fmt
+      - name: Terraform init
+        run: terraform init
+      - name: Deploy
+        run: terraform apply
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          base: main
+          branch: modified-infra
+          title: "Update infrastruture"
+          commit-message: Update infrastruture
+          body: "  Please delete the branch after merge it!"
+          delete-branch: true

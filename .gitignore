@@ -1,2 +1,4 @@
 .terraform/
 .terraform.lock.hcl
+functions/health.mjs.zip
+functions/quotes.mjs.zip
