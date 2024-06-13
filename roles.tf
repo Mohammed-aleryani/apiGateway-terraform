@@ -19,7 +19,7 @@ resource "aws_iam_role" "test_role" {
         Action = "sts:AssumeRoleWithWebIdentity"
         Condition = {
           "StringEquals" : {
-            "token.actions.githubusercontent.com:sub" : "repo:Mohammed-aleryan/apiGateway-terraform:ref:refs/heads/main"
+            "token.actions.githubusercontent.com:sub" : "repo:Mohammed-aleryan/apiGateway-terraform:ref:refs/heads/master"
           }
         }
         Effect = "Allow"
