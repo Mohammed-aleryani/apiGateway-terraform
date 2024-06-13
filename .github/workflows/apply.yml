@@ -3,7 +3,7 @@ name: Deploy the resourses on merge
 on:
   workflow_dispatch:
   push:
-    branches: main
+    branches: master
 
 env:
   AWS_REGION: "us-east-1"
